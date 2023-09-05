@@ -1,0 +1,102 @@
+CREATE LOGIN [project] WITH PASSWORD = 'modernMAM';
+EXEC sp_addsrvrolemember 'project', 'sysadmin';
+
+CREATE TABLE Sales_Office (
+    Office_Number INT PRIMARY KEY,
+    Location VARCHAR(50) NOT NULL
+);
+CREATE TABLE Employee (
+    Employee_ID INT PRIMARY KEY,
+    Employee_Name VARCHAR(50) NOT NULL,
+    Office_Number INT NOT NULL,
+    Is_Manager BIT NOT NULL,
+    CONSTRAINT fk_Employee_Sales_Office FOREIGN KEY (Office_Number)
+        REFERENCES Sales_Office(Office_Number)
+);
+CREATE TABLE Property (
+    Property_ID INT PRIMARY KEY,
+    Address VARCHAR(100) NOT NULL,
+    City VARCHAR(50) NOT NULL,
+    State VARCHAR(50) NOT NULL,
+    Postcode VARCHAR(20) NOT NULL,
+    Office_Number INT NOT NULL,
+    CONSTRAINT fk_Property_Sales_Office FOREIGN KEY (Office_Number)
+        REFERENCES Sales_Office(Office_Number)
+);
+CREATE TABLE Owner (
+    Owner_ID INT PRIMARY KEY,
+    Owner_Name VARCHAR(50) NOT NULL
+);
+CREATE TABLE Property_Owner (
+    Property_ID INT NOT NULL,
+    Owner_ID INT NOT NULL,
+    Percent_Owned DECIMAL(5,2) NOT NULL,
+    CONSTRAINT pk_Property_Owner PRIMARY KEY (Property_ID, Owner_ID),
+    CONSTRAINT fk_Property_Owner_Property FOREIGN KEY (Property_ID)
+        REFERENCES Property(Property_ID),
+    CONSTRAINT fk_Property_Owner_Owner FOREIGN KEY (Owner_ID)
+        REFERENCES Owner(Owner_ID)
+);
+CREATE TABLE user_login(
+    ID int NOT NULL IDENTITY(1,1),
+    username varchar(100) not null,
+    password varchar(100) not null,
+    PRIMARY KEY (ID)
+);
+select * from user_login
+
+
+
+
+
+
+
+
+MYSQL 5.7:
+CREATE TABLE Sales_Office (
+    Office_Number INT PRIMARY KEY,
+    Location VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Employee (
+    Employee_ID INT PRIMARY KEY,
+    Employee_Name VARCHAR(50) NOT NULL,
+    Office_Number INT NOT NULL,
+    Is_Manager BIT NOT NULL,
+    CONSTRAINT fk_Employee_Sales_Office FOREIGN KEY (Office_Number)
+        REFERENCES Sales_Office(Office_Number)
+);
+
+CREATE TABLE Property (
+    Property_ID INT PRIMARY KEY,
+    Address VARCHAR(100) NOT NULL,
+    City VARCHAR(50) NOT NULL,
+    State VARCHAR(50) NOT NULL,
+    Postcode VARCHAR(20) NOT NULL,
+    Office_Number INT NOT NULL,
+    CONSTRAINT fk_Property_Sales_Office FOREIGN KEY (Office_Number)
+        REFERENCES Sales_Office(Office_Number)
+);
+
+CREATE TABLE Owner (
+    Owner_ID INT PRIMARY KEY,
+    Owner_Name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Property_Owner (
+    Property_ID INT NOT NULL,
+    Owner_ID INT NOT NULL,
+    Percent_Owned DECIMAL(5,2) NOT NULL,
+    CONSTRAINT pk_Property_Owner PRIMARY KEY (Property_ID, Owner_ID),
+    CONSTRAINT fk_Property_Owner_Property FOREIGN KEY (Property_ID)
+        REFERENCES Property(Property_ID),
+    CONSTRAINT fk_Property_Owner_Owner FOREIGN KEY (Owner_ID)
+        REFERENCES Owner(Owner_ID)
+);
+
+CREATE TABLE user_login(
+    ID int NOT NULL AUTO_INCREMENT,
+    username varchar(100) not null,
+    password varchar(100) not null,
+    PRIMARY KEY (ID)
+);
